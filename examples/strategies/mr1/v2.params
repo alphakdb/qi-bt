@@ -1,0 +1,6 @@
+asset=SPY
+bb_n=14
+bb_sd=1.5
+atr_n=10
+atr_mult=1.5
+warmup=100

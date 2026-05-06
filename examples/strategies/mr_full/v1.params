@@ -1,0 +1,8 @@
+n              = 20
+rsi_n          = 14
+rsi_thresh     = 40
+threshold      = 0.0025
+sl_stop        = 0.005
+tp_stop        = 0.015
+risk_per_trade = 0.02
+hold_bars      = 60

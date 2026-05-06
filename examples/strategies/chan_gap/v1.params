@@ -1,0 +1,9 @@
+universe=SP500_COMPONENTS
+lookback=20
+entry_z=1.5
+exit_z=0.5
+atr_mult=2.0
+gap_threshold=0.005
+bb_n=14
+max_hold_bars=390
+warmup=30

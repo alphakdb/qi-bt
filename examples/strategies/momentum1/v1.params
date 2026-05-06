@@ -1,0 +1,4 @@
+universe=SP500_COMPONENTS
+rsi_n=14
+top_n=10
+warmup=60
