@@ -1,2 +1,2 @@
 # qi-bt
-Backtesting framework
+Backtesting library
