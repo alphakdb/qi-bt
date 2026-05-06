@@ -1,0 +1,2 @@
+# qi-bt
+Backtesting framework
