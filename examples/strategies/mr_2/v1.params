@@ -1,0 +1,7 @@
+n              = 20
+risk_per_trade = 0.02
+warmup         = auto
+enter_at       = next_open
+enter_slip     = 5bps
+exit_at        = next_open
+exit_slip      = 5bps

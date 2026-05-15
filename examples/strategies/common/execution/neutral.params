@@ -1,0 +1,5 @@
+entry_spread_factor = 0.25
+exit_spread_factor = 0.0
+
+entry_impact_bps = 1.5
+exit_impact_bps = 0.75
