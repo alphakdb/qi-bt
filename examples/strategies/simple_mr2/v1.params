@@ -1,6 +1,0 @@
-n               = 20
-dev_pct         = 0.02
-atr_n           = 14
-max_bars        = 10
-risk_per_trade  = 0.01
-stop_atr_mult   = 2.0

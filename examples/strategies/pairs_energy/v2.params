@@ -1,6 +1,0 @@
-legs=XOM,CVX
-lookback=30
-entry_z=1.5
-exit_z=0.3
-max_loss_r=1.5
-warmup=60

@@ -1,8 +1,0 @@
-bb_n=20
-bb_sd=2.0
-atr_n=14
-atr_mult=2.5
-warmup=100
-execution=passive
-warmup=auto
-timeout_bars=30

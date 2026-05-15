@@ -1,4 +1,0 @@
-warmup=50
-interval=1s
-offset_bars=1
-timeout_bars=30
