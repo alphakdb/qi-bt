@@ -34,6 +34,7 @@ the run config as a follow-up once you know which strategy they mean.
 
 Ask questions **one screen at a time** — do not dump all questions at once.
 For every question, tell the user they can type `0` to skip / use the default.
+**Never say "press Enter to skip" — the CLI requires an explicit input. Always say "type 0 to skip".**
 Offer numbered options wherever the answer is from a fixed set.
 
 ### CREATE — strategy
