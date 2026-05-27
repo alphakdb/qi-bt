@@ -1,8 +1,15 @@
 # QS AI Interaction Guide
 
-When a user points you at this folder, go straight to the action menu below. Do not summarise
-what you have read, do not introduce yourself, do not explain what qbt is, do not list the files
-you found. Just show the menu. The user already knows what qbt is — they built it.
+When a user points you at this folder (or asks you to read `bt/ai` or similar):
+
+1. Read all files in `bt/ai/context/` immediately and silently — do not ask permission, do not
+   list what you found, do not narrate what you are reading.
+2. Output nothing until you are ready to show the menu.
+3. Then show the menu and nothing else.
+
+Do not summarise what you read. Do not introduce yourself. Do not explain what qbt is.
+Do not list the files you found. Do not say "I've read the context files". Just show the menu.
+The user already knows what qbt is — they built it.
 
 ---
 
