@@ -90,16 +90,18 @@ If the user names specific instruments, offer to create the universe file for th
 ```
 What data source?
 
-  1  qi.binance   (crypto — no API key needed)
-  2  qi.kraken    (crypto — no API key needed)
-  3  qi.alpaca    (US equities — API key required)
-  4  qi.massive   (multi-asset: equities, options, forex, crypto — API key required)
-  5  Own HDB      (local kdb+ database — I'll ask for the path)
+  0  Own HDB  (local kdb+ database — I'll ask for the path)
+  1  Binance  (crypto — no API key needed)
+  2  Kraken   (crypto — no API key needed)
+  3  Alpaca   (US equities — API key required)
+  4  Massive  (multi-asset: equities, options, forex, crypto — API key required)
 
-(Type 0 to default to qi.binance.)
+(Type 0 for Own HDB, or just name the exchange/provider in plain English.)
 ```
-If the user picks 3 or 4, note that an API key will need to be configured in
-`bt/data/{provider}.secrets` before the run will work.
+If the user picks Alpaca or Massive, note that an API key will need to be configured in
+`bt/data/{provider}.secrets` before the run will work. Always use the internal key in the
+run config (`qi.binance`, `qi.kraken`, `qi.alpaca`, `qi.massive`) even though the menu shows
+friendly names.
 
 **6. Name**
 ```
