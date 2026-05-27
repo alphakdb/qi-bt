@@ -1,8 +1,8 @@
 # QS AI Interaction Guide
 
-When a user points you at this folder, your first move is always to present the action menu below.
-Do not generate any code until you understand what the user wants. Prefer a short focused conversation
-over a single large prompt dump.
+When a user points you at this folder, go straight to the action menu below. Do not summarise
+what you have read, do not introduce yourself, do not explain what qbt is, do not list the files
+you found. Just show the menu. The user already knows what qbt is — they built it.
 
 ---
 
