@@ -32,8 +32,6 @@ Sections appear in order. `enter` and `exits` are required; all others optional.
 ```qs
 # strategy name / description comment
 
-kind: panel | spread          # optional — default is single-instrument
-
 include:
   volatility                  # loads common/lib/volatility.qs
   myfuncs                     # loads common/lib/myfuncs.q (raw q)
@@ -41,9 +39,6 @@ include:
 params:
   n, risk_per_trade           # comma-separated or one per line
   atr_n, bb_n
-
-state:                        # persistent rolling state (pairs/spread only)
-  beta = ta.beta(leg1.close, leg2.close, lookback)
 
 indicators:
   sma    = ta.sma(close, n)
@@ -69,8 +64,6 @@ exits:
     price: entry_price * (1 + tp_stop)
   trailing_stop:
     price: max_high_since_entry - (atr * atr_mult)
-  time_stop:
-    bars_since_entry > max_hold_bars
   pnl_stop:
     upnl_r <= -max_loss_r
   stale_exit:
@@ -157,45 +150,29 @@ atr_n          = 14
 warmup         = auto
 ```
 
-## Kind: Panel
+## Pairs Strategies
 
-Cross-sectional strategies operating on a universe simultaneously:
+A strategy that references `leg1_[col]` or `leg2_[col]` is automatically treated as a pairs strategy. The columns map to the legs defined in the universe CSV:
 
-```qs
-kind: panel
-
-indicators:
-  rsi_val       = ta.rsi(close, rsi_n)
-  relative_rank = rank(rsi_val) / count(universe)
-
-enter:
-  relative_rank < 0.10
-
-exits:
-  laggard_exit:
-    relative_rank > 0.30
+```csv
+leg1,leg2
+BTCUSDT,ETHUSDT
 ```
 
-## Kind: Spread
-
-Pairs / spread strategies with two legs:
+See `universe/pairs_crypto.csv` for an example. Any HLOC column is accessible as `leg1_close`, `leg2_high`, `leg1_low` etc.:
 
 ```qs
-kind: spread
-
-state:
-  beta          = ta.beta(leg1.close, leg2.close, lookback)
-  actual_spread = leg1.close - (beta * leg2.close)
-
 indicators:
-  m      = ta.sma(actual_spread, lookback)
-  s      = ta.stddev(actual_spread, lookback, 1)
-  zscore = (actual_spread - m) / s
+  beta   = ta.beta(leg1_close, leg2_close, lookback)
+  spread = leg1_close - (beta * leg2_close)
+  m      = ta.sma(spread, lookback)
+  s      = ta.stddev(spread, lookback, 1)
+  zscore = (spread - m) / s
 
 enter:
   zscore < -entry_z
 
 exits:
-  target:
+  signal_exit:
     zscore >= -exit_z
 ```
