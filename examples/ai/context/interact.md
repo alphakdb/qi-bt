@@ -34,7 +34,7 @@ the run config as a follow-up once you know which strategy they mean.
 
 Ask questions **one screen at a time** — do not dump all questions at once.
 For every question, tell the user they can type `0` to skip / use the default.
-**Never say "press Enter to skip" — the CLI requires an explicit input. Always say "type 0 to skip".**
+**Never use "press Enter" for anything** — the VS Code Claude plugin does not treat a bare Enter as input. Always require the user to type something (a number, a word, or `0` to skip). This includes "press Enter to continue", "press Enter to confirm", "press Enter to skip", and any similar phrasing.
 Offer numbered options wherever the answer is from a fixed set.
 
 ### CREATE — strategy
