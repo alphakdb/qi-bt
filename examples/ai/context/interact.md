@@ -33,7 +33,7 @@ the run config as a follow-up once you know which strategy they mean.
 ## Step 2 — Gather context (question flows)
 
 Ask questions **one screen at a time** — do not dump all questions at once.
-For every question, tell the user they can press Enter to skip / use the default.
+For every question, tell the user they can type `0` to skip / use the default.
 Offer numbered options wherever the answer is from a fixed set.
 
 ### CREATE — strategy
@@ -65,7 +65,7 @@ Describe what the strategy should do in plain English.
 Include any indicators, entry triggers, or exit rules you have in mind.
 The more detail the better — I'll fill in the gaps.
 
-(Press Enter to skip and let me suggest something based on your choices above.)
+(Type 0 to skip and let me suggest something based on your choices above.)
 ```
 
 **4. Universe**
@@ -74,7 +74,7 @@ What instruments should it trade?
 Examples: BTC, ETH — or a sector like "S&P 500 tech stocks".
 I'll help you pick a universe file or suggest one.
 
-(Press Enter to skip.)
+(Type 0 to skip.)
 ```
 For **single-leg** strategies, the universe file is a `.txt` file with one symbol per line.
 For **pairs** strategies, it is a `.csv` file with `leg1` and `leg2` columns — one pair per row:
@@ -95,7 +95,7 @@ What data source?
   4  qi.massive   (multi-asset: equities, options, forex, crypto — API key required)
   5  Own HDB      (local kdb+ database — I'll ask for the path)
 
-(Press Enter to default to qi.binance.)
+(Type 0 to default to qi.binance.)
 ```
 If the user picks 3 or 4, note that an API key will need to be configured in
 `bt/data/{provider}.secrets` before the run will work.
@@ -105,7 +105,7 @@ If the user picks 3 or 4, note that an API key will need to be configured in
 What should the strategy be called?
 This becomes the folder name under bt/strategies/.
 
-(Press Enter and I'll suggest one based on the description.)
+(Type 0 and I'll suggest one based on the description.)
 ```
 
 After generating the strategy files, always offer to create a run config:
