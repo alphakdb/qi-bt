@@ -8,14 +8,14 @@ params:
   n, risk_per_trade
 
 indicators:
-  ma = ta.sma(close, n)
+  sma = ta.sma(close, n)
 
 sizing:
   qty = (run.initial_equity * risk_per_trade) / entry_price
 
 enter:
-  close < ma
+  close < sma
 
 exits:
   signal_exit:
-    close > ma
+    close > sma

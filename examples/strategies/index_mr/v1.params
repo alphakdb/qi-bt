@@ -1,0 +1,12 @@
+bb_n           = 20
+bb_sd          = 1.5
+rsi_n          = 14
+rsi_thresh     = 40
+atr_n          = 14
+atr_mult       = 2.0
+risk_per_trade = 0.05
+warmup         = auto
+enter_at       = next_open
+enter_slip     = 5bps
+exit_at        = next_open
+exit_slip      = 5bps
