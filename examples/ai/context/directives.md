@@ -15,6 +15,11 @@ called when the source content changes.
 **Syntax:** `[short] @AI opposite`  
 **Source:** The `[long]` block in the same file
 
+> **AI assistants: do not emit this directive.** It is a convenience for users editing
+> files by hand — when present in a file it triggers an engine API call at compile time,
+> which requires a configured API key. When you are generating or editing a strategy,
+> write both `[long]` and `[short]` blocks explicitly using the transformation rules below.
+
 Generates a `[short]` block by transforming the `[long]` block.
 
 ### Rules
@@ -133,6 +138,7 @@ Each directive stores a hash of its source content as a comment:
 [short] @AI opposite # hash:a3f9c2b1
 ```
 
-The hash covers the `[long]` block with comment lines stripped and whitespace
-normalised. If the hash matches on the next run, the generated block is reused
-and no API call is made.
+The hash is an MD5 of the `[long]` block with comment lines stripped and whitespace
+normalised. It is set by the engine when the directive is first expanded and reused on
+subsequent runs if the source is unchanged. You do not need to compute or supply it —
+if a user asks, the engine manages the hash automatically.

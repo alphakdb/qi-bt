@@ -70,7 +70,7 @@ exits:
     bars_since_entry > 30
     upnl_r <= 0.5
 
-[short] @AI opposite          # or explicit [short] block below
+[short] @AI opposite          # user shorthand only — AI assistants must write both blocks explicitly (see directives.md)
 ```
 
 ## Side Blocks

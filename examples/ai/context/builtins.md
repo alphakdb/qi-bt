@@ -27,6 +27,21 @@
 |--------------------|----------------------------------|
 | run.initial_equity | Starting equity from run config  |
 
+## Pairs Variables (pairs strategies only)
+| Name                    | Description |
+|-------------------------|-------------|
+| `spread`                | Current bar spread value (leg1_close - beta * leg2_close, or as defined) |
+| `max_spread_since_entry`| Running max of spread since entry — use in long trailing stops |
+| `min_spread_since_entry`| Running min of spread since entry — use in short trailing stops |
+| `leg1_open`             | Leg 1 bar open |
+| `leg1_high`             | Leg 1 bar high |
+| `leg1_low`              | Leg 1 bar low |
+| `leg1_close`            | Leg 1 bar close |
+| `leg2_open`             | Leg 2 bar open |
+| `leg2_high`             | Leg 2 bar high |
+| `leg2_low`              | Leg 2 bar low |
+| `leg2_close`            | Leg 2 bar close |
+
 ## Cross-Sectional (kind: panel only)
 | Name             | Description                            |
 |------------------|----------------------------------------|

@@ -2,14 +2,8 @@
 
 When a user points you at this folder (or asks you to read `bt/ai` or similar):
 
-1. Read all files in `bt/ai/context/` immediately and silently — do not ask permission, do not
-   list what you found, do not narrate what you are reading.
-2. Output nothing until you are ready to show the menu.
-3. Then show the menu and nothing else.
-
-Do not summarise what you read. Do not introduce yourself. Do not explain what qbt is.
-Do not list the files you found. Do not say "I've read the context files". Just show the menu.
-The user already knows what qbt is — they built it.
+Read all files in `bt/ai/context/`. Once you have read them, show the action menu below.
+The user already knows what qbt is — skip any introduction and go straight to the menu.
 
 ---
 
@@ -56,44 +50,7 @@ What kind of strategy?
   2  Pairs       (spread between two correlated instruments)
 ```
 
-**2. Strategy family**
-```
-What is the broad approach?
-
-  1  Mean reversion   — fade moves away from an average
-  2  Momentum / trend — ride moves in the prevailing direction
-  3  Statistical arb  — pairs / spread / cointegration
-  4  Other / I'll describe it
-```
-(If user picks 3, set type = Pairs automatically.)
-
-**3. Free-form description**
-```
-Describe what the strategy should do in plain English.
-Include any indicators, entry triggers, or exit rules you have in mind.
-The more detail the better — I'll fill in the gaps.
-
-(Type 0 to skip and let me suggest something based on your choices above.)
-```
-
-**4. Universe**
-```
-What instruments should it trade?
-Examples: BTC, ETH — or a sector like "S&P 500 tech stocks".
-I'll help you pick a universe file or suggest one.
-
-(Type 0 to skip.)
-```
-For **single-leg** strategies, the universe file is a `.txt` file with one symbol per line.
-For **pairs** strategies, it is a `.csv` file with `leg1` and `leg2` columns — one pair per row:
-```csv
-leg1,leg2
-BTCUSDT,ETHUSDT
-```
-qbt detects the format automatically. Universe files live in `bt/universe/`.
-If the user names specific instruments, offer to create the universe file for them.
-
-**5. Data source**
+**2. Data source**
 ```
 What data source?
 
@@ -109,6 +66,43 @@ If the user picks Alpaca or Massive, note that an API key will need to be config
 `bt/data/{provider}.secrets` before the run will work. Always use the internal key in the
 run config (`qi.binance`, `qi.kraken`, `qi.alpaca`, `qi.massive`) even though the menu shows
 friendly names.
+
+**3. Strategy family**
+```
+What is the broad approach?
+
+  1  Mean reversion   — fade moves away from an average
+  2  Momentum / trend — ride moves in the prevailing direction
+  3  Statistical arb  — pairs / spread / cointegration
+  4  Other / I'll describe it
+```
+(If user picks 3, set type = Pairs automatically.)
+
+**4. Free-form description**
+```
+Describe what the strategy should do in plain English.
+Include any indicators, entry triggers, or exit rules you have in mind.
+The more detail the better — I'll fill in the gaps.
+
+(Type 0 to skip and let me suggest something based on your choices above.)
+```
+
+**5. Universe**
+```
+What instruments should it trade?
+Examples: BTC, ETH — or a sector like "S&P 500 tech stocks".
+I'll help you pick a universe file or suggest one.
+
+(Type 0 to skip.)
+```
+For **single-leg** strategies, the universe file is a `.txt` file with one symbol per line.
+For **pairs** strategies, it is a `.csv` file with `leg1` and `leg2` columns — one pair per row:
+```csv
+leg1,leg2
+BTCUSDT,ETHUSDT
+```
+qbt detects the format automatically. Universe files live in `bt/universe/`.
+If the user names specific instruments, offer to create the universe file for them.
 
 **6. Name**
 ```
@@ -148,6 +142,10 @@ Ask:
 3. What should be different (optional — can edit after)
 4. Do you also want to clone an existing run config for it? (optional)
 
+If the source strategy contains `[short] @AI opposite`, expand it into an explicit `[short]`
+block in the clone — do not copy the directive. Apply the transformation rules from
+`directives.md` yourself.
+
 ---
 
 ### EDIT
@@ -162,8 +160,10 @@ Ask:
    ```
 3. What should change? (free text)
 
-Then apply the change using the correct DSL syntax. For structural changes to a `[short]` block,
-prefer `@AI opposite` if the long side is clean rather than hand-editing both sides.
+Then apply the change using the correct DSL syntax. Always write both `[long]` and `[short]`
+blocks explicitly — never emit `@AI opposite` in any file you generate. That directive is a
+convenience for users editing files by hand; when written into a file it triggers an engine
+API call that the user may not have configured.
 
 ---
 
@@ -192,8 +192,10 @@ Follow the structure in `dsl.md` exactly.
 - `indicators:` — derived series only; keep it readable
 - `sizing:` — default to `qty = (run.initial_equity * risk_per_trade) / entry_price`
 - `enter:` / `exits:` — one condition per line; AND logic is implicit across lines
-- For two-sided strategies: write `[long]` explicitly, then add `[short] @AI opposite`
-  unless the short side needs meaningfully different logic
+- For two-sided strategies: write both `[long]` and `[short]` blocks explicitly.
+  Never emit `@AI opposite` — it triggers an engine API call the user may not have configured.
+  Apply the same transformations yourself (flip price comparisons, flip stop arithmetic,
+  flip trail direction — see `directives.md` for the full rules).
 
 Good defaults when the user hasn't specified:
 - Stop loss: ATR-based (`price: entry_price - (atr * atr_mult)`)
