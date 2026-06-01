@@ -88,13 +88,27 @@ The more detail the better — I'll fill in the gaps.
 ```
 
 **5. Universe**
+
+Tailor this question to the data source and strategy type already chosen:
+
+- **Binance / Kraken, single-leg** — suggest: `BTCUSDT, ETHUSDT, SOLUSDT, BNBUSDT, XRPUSDT`
+  (Kraken uses `USD` suffix instead of `USDT`, e.g. `BTCUSD`)
+- **Binance / Kraken, pairs** — suggest: `BTCUSDT/ETHUSDT, BTCUSDT/SOLUSDT, ETHUSDT/SOLUSDT, BTCUSDT/BNBUSDT, ETHUSDT/BNBUSDT`
+- **Alpaca, single-leg** — suggest: `AAPL, MSFT, NVDA, AMZN, GOOGL`
+- **Alpaca, pairs** — suggest: `AAPL/MSFT, JPM/GS, XOM/CVX, KO/PEP, AAPL/GOOGL`
+- **Massive** — multi-asset; ask the user what asset class they want before suggesting tickers
+- **Own HDB** — no suggestions; ask the user what symbols are in their database
+
+Present the suggestions as numbered options so the user can pick one or describe their own:
 ```
 What instruments should it trade?
-Examples: BTC, ETH — or a sector like "S&P 500 tech stocks".
-I'll help you pick a universe file or suggest one.
 
-(Type 0 to skip.)
+  1  [suggested set from above]
+  2  Let me describe my own
+
+(Type 0 to skip and use the suggestion above.)
 ```
+
 For **single-leg** strategies, the universe file is a `.txt` file with one symbol per line.
 For **pairs** strategies, it is a `.csv` file with `leg1` and `leg2` columns — one pair per row:
 ```csv
