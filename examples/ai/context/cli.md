@@ -21,6 +21,18 @@ qbt run my_run.v2       # run with alternate params (v2.params)
 **Important:** `qbt run` takes only the run name — no path, no file extension.
 The engine will error if `enter_at` or `exit_at` are missing from the run config.
 
+For **HDB runs**, you must also specify `bars` — the name of the table inside the HDB that
+contains bar data. The engine cannot infer this from `interval` alone. Ask the user what
+their table is called, or list the contents of a date partition to discover it:
+```bash
+ls /path/to/hdb/$(ls /path/to/hdb | grep -v sym | head -1)/
+# e.g. AlpacaEquityB1Day  AlpacaEquityB1Hour  AlpacaEquityB1Min
+```
+Then set in the run config:
+```
+bars = AlpacaEquityB1Day
+```
+
 
 - Correct:   `qbt run binance_pairs_mr1`
 - Incorrect: `qbt run crypto/binance_pairs_mr1`
