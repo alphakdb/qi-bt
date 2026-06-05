@@ -1,3 +1,0 @@
-.ta.bbands
-bbands2
-.kl.bbands3
