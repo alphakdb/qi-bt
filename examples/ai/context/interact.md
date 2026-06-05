@@ -85,12 +85,13 @@ Combine all remaining gaps into one short screen. One line per item, no explanat
 Include interval, date range, and equity here if not yet known — params like `lookback`
 cannot be calibrated without knowing the interval (30 bars on `1d` ≈ a month;
 on `1m` ≈ 30 minutes). Maximum 4 items.
+Always use the exact header phrasing: `A few quick details — type 0 to use defaults:` — do not paraphrase.
 
 If **rules** are missing, ask for them and give a brief concrete example relevant to the
 approach already described — one line, not a paragraph:
 
 ```
-A few quick details (type 0 to use defaults):
+A few quick details — type 0 to use defaults:
 
   Entry/exit rules (e.g. "enter long when zscore < -2, exit when zscore > -0.5, stop at -4" — or type 0 to let me design them):
   Interval (default 1m):
@@ -160,7 +161,7 @@ Describe what the strategy should do — entry/exit rules, indicators, risk cont
 
 **5. Remaining details** — collect in one block, only for what is still missing:
 ```
-A few quick details (type 0 to use defaults):
+A few quick details — type 0 to use defaults:
 
   Tickers:
   Interval (default 1m):
