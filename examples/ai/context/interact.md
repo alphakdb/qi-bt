@@ -48,12 +48,14 @@ Never ask for something the user already told you.
 **1. Choose mode**
 
 ```
-Either describe the strategy in plain English, or type 0 and I'll walk you through it with guided questions.
+Either describe the strategy in plain English, or type 0 to be walked through it step by step.
 ```
 
 ---
 
 #### Mode 1 — Describe it
+
+If the user types a description, parse it and proceed. If they type 0, switch to Mode 2.
 
 ```
 Describe your strategy — the more detail you give, the fewer follow-up questions I'll need.
@@ -91,8 +93,8 @@ approach already described — one line, not a paragraph:
 A few quick details (type 0 to use defaults):
 
   Entry/exit rules (e.g. "enter long when zscore < -2, exit when zscore > -0.5, stop at -4" — or type 0 to let me design them):
-  Interval (default 1d):
-  Date range (default last 2 years):
+  Interval (default 1m):
+  Date range (default last full quarter — 2026.01.01 to 2026.03.31):
   Starting equity (e.g. 10000, 50000, 1000000 — default 10000):
 ```
 
@@ -153,7 +155,7 @@ What is the broad approach?
 ```
 Describe what the strategy should do — entry/exit rules, indicators, risk controls.
 
-(Type 0 to let me design something based on your choices above.)
+(Type 0 to let me design something.)
 ```
 
 **5. Remaining details** — collect in one block, only for what is still missing:
@@ -161,8 +163,8 @@ Describe what the strategy should do — entry/exit rules, indicators, risk cont
 A few quick details (type 0 to use defaults):
 
   Tickers:
-  Interval (default 1d):
-  Date range (default last 2 years):
+  Interval (default 1m):
+  Date range (default last full quarter — 2026.01.01 to 2026.03.31):
   Starting equity (e.g. 10000, 50000, 1000000 — default 10000):
 ```
 
@@ -206,7 +208,7 @@ config offer is usually just a confirmation:
 
 ```
 Strategy files are ready. Want me to create a run config too?
-I have everything I need — it'll use {interval} bars, {start} to {end}, ${equity} equity.
+I have everything I need — it'll use {interval} bars (default 1m), {start} to {end} (default Q1 2026), ${equity} equity.
 
   1  Yes, create the run
   2  No, I'll do that later
@@ -217,12 +219,15 @@ Only ask additional run config questions if genuinely unknown:
 1. Fees + slippage (default: `10bps` fees, `5bps` slip)
 2. Risk limits — max drawdown, timeout bars (can skip)
 
-**Naming rules — important:**
+**Naming rules — critical:**
 - Strategy names must never reference a data source (e.g. `pairs_mr1` not `binance_pairs_mr1`).
   A strategy is data-agnostic — the same logic can run on Binance, Alpaca, or an HDB.
-- Run names and strategy names must be unique across both — the engine errors if a run and a
-  strategy share the same name. Convention: `{data_source}_{strategy_name}` for runs
-  (e.g. `binance_pairs_mr1`) keeps them distinct and self-describing.
+- Run names and strategy names must be globally unique across the entire `bt/runs/` and
+  `bt/strategies/` directory trees — the engine scans recursively and errors on any duplicate,
+  even across subdirectories (e.g. `bt/runs/binance_mr1.conf` and `bt/runs/crypto/binance_mr1.conf`
+  will clash). Always check with `qbt runs` and `qbt strats` before creating a new name.
+- Convention: `{data_source}_{strategy_name}` for runs (e.g. `binance_pairs_mr1`) keeps run
+  names distinct from strategy names and self-describing.
 
 If Alpaca or Massive is the data source, note that an API key must be configured in
 `bt/data/{provider}.secrets` before the run will work.
@@ -320,7 +325,7 @@ atr_n          = 14
 ### run config (.conf)
 
 Follow the structure in `dsl.md` (Context / Timeline / Execution / Economics / Risk sections).
-Default timeline: last 2 years at daily bars unless the user specified otherwise.
+Default timeline: last full quarter (`2026.01.01` to `2026.03.31`) at `1m` bars unless the user specified otherwise. Update this quarter boundary as time passes.
 
 **`enter_at` and `exit_at` are mandatory** — the engine will error without them.
 Always include an Execution section even if the user didn't ask about it:
@@ -397,7 +402,10 @@ See `cli.md` for the full reference.
 - **Reference the examples.** `examples/strategies/` contains working reference implementations
   at increasing complexity — use them as a sanity check before finalising output.
 - **Naming.** Strategy names are data-agnostic (`pairs_mr1`, not `binance_pairs_mr1`).
-  Run names must never match a strategy name — prefix runs with the data source to keep them distinct.
+  Run and strategy names must be globally unique across all subdirectories — the engine scans
+  recursively and errors on duplicates anywhere in the tree. Always check `qbt runs` and
+  `qbt strats` before creating a new name. Prefix runs with the data source to distinguish
+  them from strategy names (e.g. `binance_pairs_mr1` for a run, `pairs_mr1` for the strategy).
 - **params vs run config.** `v1.params` contains only values referenced in `logic.qs`.
   Execution settings (warmup, enter_at, enter_slip, exit_at, exit_slip) always go in the run
   config `.conf` file, never in `.params`.
