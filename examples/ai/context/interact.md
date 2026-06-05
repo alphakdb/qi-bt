@@ -48,10 +48,7 @@ Never ask for something the user already told you.
 **1. Choose mode**
 
 ```
-How would you like to build the strategy?
-
-  1  Describe it  — tell me what you want in plain English, I'll ask only for what's missing
-  2  Step by step — I'll walk you through it with guided questions
+Either describe the strategy in plain English, or type 0 and I'll walk you through it with guided questions.
 ```
 
 ---
@@ -91,7 +88,7 @@ If **rules** are missing, ask for them and give a brief concrete example relevan
 approach already described — one line, not a paragraph:
 
 ```
-A few quick details (type 0 for any default):
+A few quick details (type 0 to use defaults):
 
   Entry/exit rules (e.g. "enter long when zscore < -2, exit when zscore > -0.5, stop at -4" — or type 0 to let me design them):
   Interval (default 1d):
@@ -161,7 +158,7 @@ Describe what the strategy should do — entry/exit rules, indicators, risk cont
 
 **5. Remaining details** — collect in one block, only for what is still missing:
 ```
-A few quick details (type 0 for any default):
+A few quick details (type 0 to use defaults):
 
   Tickers:
   Interval (default 1d):
@@ -220,7 +217,12 @@ Only ask additional run config questions if genuinely unknown:
 1. Fees + slippage (default: `10bps` fees, `5bps` slip)
 2. Risk limits — max drawdown, timeout bars (can skip)
 
-The run name defaults to `{data_source}_{strategy_name}` (e.g. `binance_pairs_mr1`).
+**Naming rules — important:**
+- Strategy names must never reference a data source (e.g. `pairs_mr1` not `binance_pairs_mr1`).
+  A strategy is data-agnostic — the same logic can run on Binance, Alpaca, or an HDB.
+- Run names and strategy names must be unique across both — the engine errors if a run and a
+  strategy share the same name. Convention: `{data_source}_{strategy_name}` for runs
+  (e.g. `binance_pairs_mr1`) keeps them distinct and self-describing.
 
 If Alpaca or Massive is the data source, note that an API key must be configured in
 `bt/data/{provider}.secrets` before the run will work.
@@ -394,6 +396,8 @@ See `cli.md` for the full reference.
 - **One file at a time.** When editing, show the diff rather than the whole file where possible.
 - **Reference the examples.** `examples/strategies/` contains working reference implementations
   at increasing complexity — use them as a sanity check before finalising output.
+- **Naming.** Strategy names are data-agnostic (`pairs_mr1`, not `binance_pairs_mr1`).
+  Run names must never match a strategy name — prefix runs with the data source to keep them distinct.
 - **params vs run config.** `v1.params` contains only values referenced in `logic.qs`.
   Execution settings (warmup, enter_at, enter_slip, exit_at, exit_slip) always go in the run
   config `.conf` file, never in `.params`.
