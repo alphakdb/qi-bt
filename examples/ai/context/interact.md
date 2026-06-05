@@ -129,11 +129,11 @@ What kind of strategy?
 ```
 What data source?
 
+  0  Own HDB  (local kdb+ database)
   1  Binance  (crypto)
   2  Kraken   (crypto)
   3  Alpaca   (US equities — API key required)
   4  Massive  (multi-asset — API key required)
-  0  Own HDB  (local kdb+ database)
 ```
 If Alpaca or Massive: note that an API key must be configured in `bt/data/{provider}.secrets`.
 If Own HDB: ask for the HDB path and the bar table name (e.g. `AlpacaEquityB1Day`) — the
